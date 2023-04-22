@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% if success %}
+<div class="alert alert-success">
+    The students guardian addded successfully
+    <a href="{% url 'index' %}" class="alert-link">Go to Home Page</a>
+</div>
+
+
+{% else %}
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card bg-light mb-3" >
+            <div class="card-header"><i class="fa-solid fa-address-card fa-lg"></i> Guardian Info</div>
+            <div class="card-body">
+                <form action="{% url 'addguardian' %}" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn bt-primary">Add</button>
+                    <a href="{% url 'index' %}" class="btn btn-primary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock  %}
