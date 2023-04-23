@@ -203,3 +203,34 @@ def delete_faculty(request, id):
         query = f"DELETE FROM studentdb.students_faculty WHERE id = '{id}'"
         cursor.execute(query)
     return redirect(reverse('faculty'))
+
+
+def edit_faculty(request, id):
+    if request.method == 'POST':
+        faculty = Faculty.objects.get(pk=id)
+        form = FacultyForm(request.POST, instance=faculty)
+        if form.is_valid():
+            new_name = form.cleaned_data['name']
+            new_phone = form.cleaned_data['phone']
+            new_email = form.cleaned_data['email']
+            new_address =  form.cleaned_data['address']
+            
+            cursor=connection.cursor()
+            query = f"UPDATE studentdb.students_faculty SET name = '{new_name}', phone = '{new_phone}', email = '{new_email}', address = '{new_address}' WHERE id = {id}"
+            cursor.execute(query)
+            return render( request, 'editfaculty.html', {
+                'form': form,
+                'success' : True
+            })
+        else:
+             render(request, 'editfaculty.html', {
+                'form' : form
+            })
+            
+    else:
+        faculty =Faculty.objects.get(pk=id)
+        form= FacultyForm(instance=faculty)
+    
+        return render(request, 'editfaculty.html', {
+            'form' : form
+        })

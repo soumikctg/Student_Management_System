@@ -38,6 +38,11 @@
                                 <td>{{faculty.address}}</td>
 
                                 <td>
+                                    <a class="btn btn-warning me-1" href="{% url 'editfaculty' faculty.id %}">
+                                        <i class="fa-solid fa-user-pen fa-lg"></i>
+                                    </a>
+
+
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletef{{faculty.id}}"><i class="fa-solid fa-trash fa-lg"></i></button>
                                     
 
