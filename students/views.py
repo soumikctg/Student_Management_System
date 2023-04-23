@@ -194,3 +194,12 @@ def add_faculty(request):
         return render(request, 'addfaculty.html', {
                 'form' : form
             })
+        
+        
+def delete_faculty(request, id):
+    if request.method == 'POST':
+        faculty = Faculty.objects.get(pk=id)
+        cursor=connection.cursor()
+        query = f"DELETE FROM studentdb.students_faculty WHERE id = '{id}'"
+        cursor.execute(query)
+    return redirect(reverse('faculty'))
