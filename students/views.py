@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
-from .models import Student,Guardians
+from django.db import connection
+from .models import Student,Faculty, Guardians
 from django.urls import reverse
-from .forms import StudentForm, GuardianForm
+from .forms import StudentForm, GuardianForm, FacultyForm
 
 
 # Create your views here.
@@ -22,6 +23,12 @@ def view_guardians(request, student_id):
     print(guardians)
     return render(request, 'guardian.html', {
         'guardians' : guardians
+    })
+    
+def view_faculty(request):
+    faculty = Faculty.objects.all()
+    return render(request, 'faculty.html', {
+        'faculties' : faculty
     })
     
 # guardian
@@ -154,3 +161,36 @@ def delete_student(request, student_id):
         student = Student.objects.get(pk=student_id)
         student.delete()
     return redirect(reverse('index'))
+
+
+
+
+#faculty
+def add_faculty(request):
+    if request.method == 'POST':
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            new_name = form.cleaned_data['name']
+            new_phone = form.cleaned_data['phone']
+            new_email = form.cleaned_data['email']
+            new_address =  form.cleaned_data['address']
+            
+            
+            cursor=connection.cursor()
+            query = f"INSERT INTO studentdb.students_faculty (name, phone, email, address) VALUES ('{new_name}', '{new_phone}', '{new_email}', '{new_address}')"
+            cursor.execute(query)
+        
+            
+            return render(request, 'addfaculty.html', {
+                'form' :FacultyForm,
+                'success' : True
+            })
+        else:
+            return render(request, 'addfaculty.html', {
+                'form' : FacultyForm
+            })
+    else:
+        form = FacultyForm()
+        return render(request, 'addfaculty.html', {
+                'form' : form
+            })

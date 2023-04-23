@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student,Guardians
+from .models import Student,Guardians,Faculty
 
 
 
@@ -41,5 +41,25 @@ class GuardianForm(forms.ModelForm):
             'phone' : forms.NumberInput(attrs={'class' : 'form-control'}), 
             'relation' : forms.TextInput(attrs={'class' : 'form-control'}),
             'student' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            
+        }
+
+class FacultyForm(forms.ModelForm):
+    class Meta:
+        model = Faculty
+        fields = ['id', 'name', 'phone', 'email', 'address']
+        labels = {
+            'id' : 'Faculty ID',
+            'name' : 'Faculty Name', 
+            'phone' : 'Phone', 
+            'email' : 'Email',
+            'address' : 'Address'
+        }
+        widgets = {
+            'id' : forms.NumberInput(attrs={'class' : 'form-control'}),
+            'name' : forms.TextInput(attrs={'class' : 'form-control'}), 
+            'phone' : forms.NumberInput(attrs={'class' : 'form-control'}), 
+            'email' : forms.EmailInput(attrs={'class' : 'form-control'}),
+            'address' : forms.TextInput(attrs={'class' : 'form-control'}),
             
         }
