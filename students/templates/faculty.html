@@ -6,6 +6,22 @@
 <a class="btn btn-warning me-1 m-4" href="{% url 'addfaculty' %}">
     <i class="fa-solid fa-circle-plus"></i> Add Faculty
 </a>
+<br>
+<br>
+<div class="m-4">
+    <form action="{% url 'uploadfaculty' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="formFile" class="form-label mt-4">Upload CSV File</label>
+            <input class="form-control" type="file" id="formFile" name="faculty_csv_file">
+            <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+        </div>
+    </form>
+</div>
+
+<br>
+<br>
+
 
 <div class="row">
     <div class="col-12">

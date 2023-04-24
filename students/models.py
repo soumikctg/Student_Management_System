@@ -23,5 +23,11 @@ class Guardians(models.Model):
 class Faculty(models.Model):
     name = models.CharField(max_length=50)
     phone = models.PositiveBigIntegerField()
-    email = models.EmailField(max_length=20)
+    email = models.EmailField(max_length=100)
     address = models.CharField(max_length=150)
+    
+class Marks(models.Model):
+    s_id = models.PositiveIntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    marks = models.FloatField()
+    

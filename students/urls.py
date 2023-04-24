@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+    path('login/', views.login_page, name='login'),
     path('', views.index, name='index'),
     path('faculty/', views.view_faculty, name='faculty'),
     path('<int:student_id>',views.view_students, name='view_student'),
@@ -16,4 +17,6 @@ urlpatterns = [
     path('deleteguardian/<int:guardian_id>/', views.delete_guardian, name='deleteguardian'),
     path('deletefaculty/<int:id>/', views.delete_faculty, name='deletefaculty'),
     path('editfaculty/<int:id>/', views.edit_faculty, name='editfaculty'),
+    path('uploadmark/', views.import_csv, name='uploadmark'),
+    path('uploadfaculty/', views.import_faculty, name='uploadfaculty'),
 ]

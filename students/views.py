@@ -1,11 +1,15 @@
 from django.shortcuts import render,redirect
 from django.db import connection
-from .models import Student,Faculty, Guardians
+from .models import Student,Faculty, Guardians, Marks
 from django.urls import reverse
 from .forms import StudentForm, GuardianForm, FacultyForm
+import csv
 
 
 # Create your views here.
+def login_page(request):
+    return render(request, 'login.html')
+
 def index(request):
     student = Student.objects.all()
     print(student)
@@ -234,3 +238,43 @@ def edit_faculty(request, id):
         return render(request, 'editfaculty.html', {
             'form' : form
         })
+        
+        
+        
+def import_csv(request):
+    if request.method == 'POST':
+        csv_file = request.FILES['csv_file']
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded_file)
+        
+        for row in reader:
+            umark = Marks(
+                s_id = row['STUDENT_ID'] ,
+                name = row['STD_NAME'],
+                marks = row['Quiz 2(10)']
+            )
+            
+            umark.save()
+        return redirect('uploadmark')
+        
+    return render(request, 'csvfile.html')
+
+
+def import_faculty(request):
+    if request.method == 'POST':
+        csv_file = request.FILES['faculty_csv_file']
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded_file)
+        
+        cursor=connection.cursor()
+        
+        for row in reader:
+            query = f"INSERT INTO studentdb.students_faculty (name, phone, email, address) VALUES ('{row['Name']}', '{row['Phone']}', '{row['Email']}', '{row['Address']}')" 
+            cursor.execute(query)    
+            
+        return redirect('faculty')
+        #return render(request, 'faculty.html')
+            
+
+        
+    return render(request, 'faculty.html')
